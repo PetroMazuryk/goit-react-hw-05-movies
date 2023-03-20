@@ -1,26 +1,27 @@
 import { Route, Routes } from 'react-router-dom';
 import { Layout } from './Layout/Layout';
+import Home from 'pages/Home/Home';
+// import Movies from 'pages/Movies/Movies';
 
 export const App = () => {
   return (
-    <div
-      style={{
-        textAlign: 'center',
-        height: '100vh',
-
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101',
-      }}
-    >
+    <>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<div>Домашня </div>} />
-          <Route path="dogs" element={<div>Собаки</div>} />
-          <Route path="dogs/:dogId" element={<div>Елемент колекції</div>} />
+          <Route index element={<Home />} />
+
+          <Route path="/movies" element={<div>Movies</div>} />
+
+          <Route path="/movies/:movieId" element={<div>MovieDetails</div>}>
+            <Route path="cast" element={<div>Coast</div>} />
+            <Route path="reviews" element={<div>Reviews</div>} />
+          </Route>
+
+          <Route path="*" element={<div>NotFound</div>} />
         </Route>
       </Routes>
-    </div>
+
+      {/* {<div>ToastContainer</div>} */}
+    </>
   );
 };
