@@ -2,6 +2,17 @@ import { useEffect, useState } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { getTrendMovies } from 'services/themoviedb.api';
 
+import imgDefault from '../../imgDefault.jpg';
+
+import {
+  Title,
+  ImgGalleryList,
+  ImgGalleryItem,
+  ImgGallery,
+  ImgGalleryTitle,
+  ImgGalleryVote,
+} from './Home.styled';
+
 const Home = () => {
   const [trendMovies, setTrendmovies] = useState([]);
   const location = useLocation;
@@ -18,23 +29,29 @@ const Home = () => {
 
   return (
     <>
-      <h2>Trending films today</h2>
-      <ul style={{ display: 'flex', gap: 10, width: 1200 }}>
-        {trendMovies.map(({ poster_path, title, id }) => {
+      <Title>Trending films today</Title>
+      <ImgGalleryList>
+        {trendMovies.map(({ poster_path, title, id, vote_average }) => {
           return (
-            <li key={id}>
+            <ImgGalleryItem key={id}>
               <Link to={`movies/${id}`} state={{ from: location }}>
-                <img
-                  src={`https://image.tmdb.org/t/p/w500/${poster_path}`}
+                <ImgGallery
+                  src={
+                    !poster_path
+                      ? imgDefault
+                      : `https://image.tmdb.org/t/p/w500/${poster_path}`
+                  }
                   alt={title}
                   width="360"
                 />
-                <h3>{title}</h3>
+
+                <ImgGalleryTitle>{title}</ImgGalleryTitle>
+                <ImgGalleryVote>{vote_average.toFixed(1)}</ImgGalleryVote>
               </Link>
-            </li>
+            </ImgGalleryItem>
           );
         })}
-      </ul>
+      </ImgGalleryList>
     </>
   );
 };

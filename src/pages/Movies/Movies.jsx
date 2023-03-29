@@ -1,16 +1,18 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
-import { getMovieByName } from 'services/themoviedb-api';
-import defaultImage from './defaultImage.jpeg';
+import { getMovieByName } from 'services/themoviedb.api';
+
+import imgDefault from '../../imgDefault.jpg';
 
 import { SearchForm } from 'components/SearchForm/SearchForm';
 
 import {
-  ImageGalleryItem,
-  ImageGalleryItemImage,
-  ImageGalleryItemTitle,
-  ImageGalleryList,
+  ImgGalleryItem,
+  ImgGallery,
+  ImgGalleryTitle,
+  ImgGalleryList,
   Title,
+  ImgGalleryVote,
 } from 'pages/Home/Home.styled';
 
 const Movies = () => {
@@ -19,8 +21,8 @@ const Movies = () => {
   const query = searchQuery.get('query') ?? '';
   const location = useLocation();
 
-  const handleFormSubmit = inputValue => {
-    setSearchQuery(inputValue !== '' ? { query: inputValue } : {});
+  const handleFormSubmit = inputName => {
+    setSearchQuery(inputName !== '' ? { query: inputName } : {});
   };
 
   useEffect(() => {
@@ -44,10 +46,10 @@ const Movies = () => {
           style={{
             textAlign: 'center',
             fontSize: '30px',
-            fontWeight: '700',
+            fontWeight: '600',
           }}
         >
-          The search <span style={{ color: '#a01d1d' }}>{query} </span>
+          The search <span style={{ color: 'tomato' }}>{query} </span>
           did not give results
         </Title>
       )}
@@ -55,30 +57,32 @@ const Movies = () => {
       {searchMovies.length > 0 && (
         <Title style={{ textAlign: 'center' }}>
           Search results for keyword{' '}
-          <span style={{ color: '#a01d1d' }}>{query} </span>:
+          <span style={{ color: 'red' }}>{query} </span>!
         </Title>
       )}
 
-      <ImageGalleryList>
-        {searchMovies.map(({ id, poster_path, original_title }) => {
+      <ImgGalleryList>
+        {searchMovies.map(({ id, poster_path, title, vote_average }) => {
           return (
-            <ImageGalleryItem key={id}>
+            <ImgGalleryItem key={id}>
               <Link to={`${id}`} state={{ from: location }}>
-                <ImageGalleryItemImage
+                <ImgGallery
                   src={
                     !poster_path
-                      ? defaultImage
+                      ? imgDefault
                       : `https://image.tmdb.org/t/p/w500/${poster_path}`
                   }
-                  alt={original_title}
-                  width="300"
+                  alt={title}
+                  width="360"
+                  height="530"
                 />
-                <ImageGalleryItemTitle>{original_title}</ImageGalleryItemTitle>
+                <ImgGalleryTitle>{title}</ImgGalleryTitle>
+                <ImgGalleryVote>{vote_average.toFixed(1)}</ImgGalleryVote>
               </Link>
-            </ImageGalleryItem>
+            </ImgGalleryItem>
           );
         })}
-      </ImageGalleryList>
+      </ImgGalleryList>
     </>
   );
 };
