@@ -31,7 +31,6 @@ export const Title = styled.h2`
 `;
 
 export const ImgGalleryList = styled.ul`
-  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -42,9 +41,18 @@ export const ImgGalleryList = styled.ul`
 
 export const ImgGalleryItem = styled.li`
   position: relative;
-  overflow: hidden;
   margin-bottom: 10px;
+  padding: 6px;
+  border-radius: 16px;
+  border: 2px solid green;
   width: 360px;
+`;
+export const ImgThumb = styled.div`
+  height: 516px;
+  border: 2px solid green;
+  border-radius: 16px;
+
+  overflow: hidden;
 `;
 
 export const ImgGallery = styled.img`

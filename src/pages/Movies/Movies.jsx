@@ -13,6 +13,7 @@ import {
   ImgGalleryList,
   Title,
   ImgGalleryVote,
+  ImgThumb,
 } from 'pages/Home/Home.styled';
 
 const Movies = () => {
@@ -66,16 +67,19 @@ const Movies = () => {
           return (
             <ImgGalleryItem key={id}>
               <Link to={`${id}`} state={{ from: location }}>
-                <ImgGallery
-                  src={
-                    !poster_path
-                      ? imgDefault
-                      : `https://image.tmdb.org/t/p/w500/${poster_path}`
-                  }
-                  alt={title}
-                  width="360"
-                  height="530"
-                />
+                <ImgThumb>
+                  <ImgGallery
+                    src={
+                      !poster_path
+                        ? imgDefault
+                        : `https://image.tmdb.org/t/p/w500/${poster_path}`
+                    }
+                    alt={title}
+                    width="360"
+                    height="530"
+                  />
+                </ImgThumb>
+
                 <ImgGalleryTitle>{title}</ImgGalleryTitle>
                 <ImgGalleryVote>{vote_average.toFixed(1)}</ImgGalleryVote>
               </Link>

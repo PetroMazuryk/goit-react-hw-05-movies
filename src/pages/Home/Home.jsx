@@ -11,6 +11,7 @@ import {
   ImgGallery,
   ImgGalleryTitle,
   ImgGalleryVote,
+  ImgThumb,
 } from './Home.styled';
 
 const Home = () => {
@@ -35,15 +36,17 @@ const Home = () => {
           return (
             <ImgGalleryItem key={id}>
               <Link to={`movies/${id}`} state={{ from: location }}>
-                <ImgGallery
-                  src={
-                    !poster_path
-                      ? imgDefault
-                      : `https://image.tmdb.org/t/p/w500/${poster_path}`
-                  }
-                  alt={title}
-                  width="360"
-                />
+                <ImgThumb>
+                  <ImgGallery
+                    src={
+                      !poster_path
+                        ? imgDefault
+                        : `https://image.tmdb.org/t/p/w500/${poster_path}`
+                    }
+                    alt={title}
+                    width="360"
+                  />
+                </ImgThumb>
 
                 <ImgGalleryTitle>{title}</ImgGalleryTitle>
                 <ImgGalleryVote>{vote_average.toFixed(1)}</ImgGalleryVote>
