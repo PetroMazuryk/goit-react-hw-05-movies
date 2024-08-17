@@ -21,7 +21,7 @@ export const MenuItem = styled.li`
   padding: 10px;
   margin: 6px;
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
 `;
 
@@ -35,6 +35,8 @@ export const StyledLink = styled(NavLink)`
   padding: 0px 10px;
   border-radius: 8px;
   box-shadow: 0 0 10px #2163f3;
+  transition: box-shadow 0.5s ease, transform 0.5s ease;
+
   &:hover {
     box-shadow: 0 0 10px #2163f3, 0 0 20px #2163f3;
   }
