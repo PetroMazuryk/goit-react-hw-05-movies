@@ -81,7 +81,11 @@ const Movies = () => {
                 </ImgThumb>
 
                 <ImgGalleryTitle>{title}</ImgGalleryTitle>
-                <ImgGalleryVote>{vote_average.toFixed(1)}</ImgGalleryVote>
+                {!vote_average ? (
+                  ''
+                ) : (
+                  <ImgGalleryVote>{vote_average.toFixed(1)}</ImgGalleryVote>
+                )}
               </Link>
             </ImgGalleryItem>
           );
