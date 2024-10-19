@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, Suspense } from 'react';
-import { getMovieDetailsById } from 'services/themoviedb.api';
+import { getMovieDetailsById,getMovieTrailerById } from 'services/themoviedb.api';
 import { Outlet, useLocation, useParams } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 
@@ -18,6 +18,8 @@ import {
 
 const MovieDetails = () => {
   const [movieInfo, setMovieInfo] = useState({});
+  const [trailerUrl, setTrailerUrl] = useState('');
+  const [isTrailerOpen, setIsTrailerOpen] = useState(false);
   const { movieId } = useParams();
   const location = useLocation();
   const goBackHref = useRef(location.state?.from || '/');
@@ -31,6 +33,21 @@ const MovieDetails = () => {
       console.log(error);
     }
   }, [movieId]);
+
+  const handleImageClick = async () => {
+    try {
+      const trailer = await getMovieTrailerById(movieId); 
+      setTrailerUrl(`https://www.youtube.com/embed/${trailer.key}`);
+      setIsTrailerOpen(true); 
+    } catch (error) {
+      console.log('Error fetching trailer:', error);
+    }
+  };
+
+  const closeTrailer = () => {
+    setIsTrailerOpen(false);
+    setTrailerUrl('');
+  };
 
   const { poster_path, title, release_date, vote_average, overview, genres } =
     movieInfo;
@@ -76,6 +93,8 @@ const MovieDetails = () => {
               }
               alt={title}
               width="360"
+              onClick={handleImageClick} 
+              style={{ cursor: 'pointer' }}
             />
           </MovieInfoWrapper>
 
@@ -98,6 +117,25 @@ const MovieDetails = () => {
             </Suspense>
           </div>
         </>
+      )}
+
+{isTrailerOpen && (
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={closeTrailer}>
+              &times;
+            </span>
+            <iframe
+              width="100%"
+              height="400"
+              src={trailerUrl}
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              title="Trailer"
+            ></iframe>
+          </div>
+        </div>
       )}
 
       <DetailsStyledLink to={goBackHref.current}>

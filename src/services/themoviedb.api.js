@@ -49,3 +49,20 @@ export const getMovieReviewsById = async movieId => {
 
   return response.data;
 };
+
+export const getMovieTrailerById = async movieId => {
+  const BASE_URL = 'https://api.themoviedb.org/3/movie';
+  const response = await axios.get(
+    `${BASE_URL}/${movieId}/videos?api_key=${API_KEY}`
+  );
+
+  const trailers = response.data.results.filter(video => video.type === 'Trailer' && video.site === 'YouTube');
+
+  if (trailers.length > 0) {
+ 
+    return trailers[0];
+    
+  } else {
+    throw new Error('Trailer not found');
+  }
+};
