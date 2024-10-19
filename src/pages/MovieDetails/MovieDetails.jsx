@@ -25,18 +25,25 @@ const MovieDetails = () => {
   const goBackHref = useRef(location.state?.from || '/');
 
   useEffect(() => {
-    try {
-      getMovieDetailsById(movieId).then(response => {
+    const fetchMovieDetails = async () => {
+      try {
+        const response = await getMovieDetailsById(movieId);
         setMovieInfo(response);
-      });
-    } catch (error) {
-      console.log(error);
-    }
+      } catch (error) {
+        console.log('Error fetching movie details:', error);
+      }
+    };
+
+    fetchMovieDetails();
+
+    setTrailerUrl('');
+    setIsTrailerOpen(false);
   }, [movieId]);
 
   const handleImageClick = async () => {
     try {
       const trailer = await getMovieTrailerById(movieId); 
+      
       setTrailerUrl(`https://www.youtube.com/embed/${trailer.key}`);
       setIsTrailerOpen(true); 
     } catch (error) {
