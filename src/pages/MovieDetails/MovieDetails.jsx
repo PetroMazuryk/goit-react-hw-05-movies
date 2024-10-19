@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, Suspense } from 'react';
-import { getMovieDetailsById,getMovieTrailerById } from 'services/themoviedb.api';
+import { getMovieDetailsById, getMovieTrailerById } from 'services/themoviedb.api';
 import { Outlet, useLocation, useParams } from 'react-router-dom';
 import { isEmpty } from 'lodash';
 
@@ -20,6 +20,7 @@ const MovieDetails = () => {
   const [movieInfo, setMovieInfo] = useState({});
   const [trailerUrl, setTrailerUrl] = useState('');
   const [isTrailerOpen, setIsTrailerOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
   const { movieId } = useParams();
   const location = useLocation();
   const goBackHref = useRef(location.state?.from || '/');
@@ -30,24 +31,22 @@ const MovieDetails = () => {
         const response = await getMovieDetailsById(movieId);
         setMovieInfo(response);
       } catch (error) {
-        console.log('Error fetching movie details:', error);
+        setErrorMessage('Error fetching movie details');
       }
     };
 
     fetchMovieDetails();
-
     setTrailerUrl('');
     setIsTrailerOpen(false);
   }, [movieId]);
 
   const handleImageClick = async () => {
     try {
-      const trailer = await getMovieTrailerById(movieId); 
-      
+      const trailer = await getMovieTrailerById(movieId);
       setTrailerUrl(`https://www.youtube.com/embed/${trailer.key}`);
-      setIsTrailerOpen(true); 
+      setIsTrailerOpen(true);
     } catch (error) {
-      console.log('Error fetching trailer:', error);
+      setErrorMessage('Error fetching trailer');
     }
   };
 
@@ -56,11 +55,11 @@ const MovieDetails = () => {
     setTrailerUrl('');
   };
 
-  const { poster_path, title, release_date, vote_average, overview, genres } =
-    movieInfo;
+  const { poster_path, title, release_date, vote_average, overview, genres } = movieInfo;
 
   return (
     <>
+      {errorMessage && <div>{errorMessage}</div>}
       {!isEmpty(movieInfo) && (
         <>
           <MovieInfoWrapper>
@@ -68,55 +67,29 @@ const MovieDetails = () => {
               <h1>
                 {title}
                 {release_date && (
-                  <span
-                    style={{
-                      padding: '0px 10px',
-                      color: 'tomato',
-                    }}
-                  >
+                  <span style={{ padding: '0px 10px', color: 'tomato' }}>
                     ({release_date.slice(0, 4)})
                   </span>
                 )}
               </h1>
-
               <p>User score: {Math.round(vote_average * 10) + '%'}</p>
-
-              <p>
-                <b>Overview: </b> {overview}
-              </p>
-
-              <p>
-                <b>Genres: </b>{' '}
-                {genres.length > 0
-                  ? genres.map(genre => genre.name).join('; ')
-                  : 'There is no information about genres.'}
-              </p>
+              <p><b>Overview: </b>{overview}</p>
+              <p><b>Genres: </b>{genres.length > 0 ? genres.map(genre => genre.name).join('; ') : 'No genre info'}</p>
             </MovieTextWrapper>
             <img
-              src={
-                !poster_path
-                  ? imgDefault
-                  : `https://image.tmdb.org/t/p/w500/${poster_path}`
-              }
+              src={!poster_path ? imgDefault : `https://image.tmdb.org/t/p/w500/${poster_path}`}
               alt={title}
               width="360"
-              onClick={handleImageClick} 
+              onClick={handleImageClick}
               style={{ cursor: 'pointer' }}
             />
           </MovieInfoWrapper>
 
           <div>
-            <h2 style={{ textAlign: 'center', fontSize: 34 }}>
-              Additional information
-            </h2>
+            <h2 style={{ textAlign: 'center', fontSize: 34 }}>Additional information</h2>
             <SubMenuList>
-              <SubMenuItem>
-                <SubNavLink to="cast">Cast</SubNavLink>
-              </SubMenuItem>
-
-              <SubMenuItem>
-                <SubNavLink to="reviews">Review</SubNavLink>
-              </SubMenuItem>
+              <SubMenuItem><SubNavLink to="cast">Cast</SubNavLink></SubMenuItem>
+              <SubMenuItem><SubNavLink to="reviews">Review</SubNavLink></SubMenuItem>
             </SubMenuList>
 
             <Suspense fallback={<div>LOADING...</div>}>
@@ -126,12 +99,10 @@ const MovieDetails = () => {
         </>
       )}
 
-{isTrailerOpen && (
+      {isTrailerOpen && (
         <div className="modal">
           <div className="modal-content">
-            <span className="close" onClick={closeTrailer}>
-              &times;
-            </span>
+            <span className="close" onClick={closeTrailer}>&times;</span>
             <iframe
               width="100%"
               height="400"
