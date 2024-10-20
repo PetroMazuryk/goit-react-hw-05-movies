@@ -3,7 +3,6 @@ import { NavLink } from 'react-router-dom';
 
 export const MovieInfoWrapper = styled.div`
   display: flex;
-
   justify-content: center;
   padding: 10px;
   margin: 10px auto 20px;
@@ -14,6 +13,25 @@ export const MovieTextWrapper = styled.div`
   gap: 20px;
   padding: 0 50px;
   width: 500px;
+`;
+
+export const ImageContainer = styled.div`
+min-width: 360px;
+height: 540px;
+  overflow: hidden;
+  border-radius: 12px;
+`;
+
+export const Image = styled.img`
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+  object-fit: cover;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
 
 export const SubMenuList = styled.ul`

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, Suspense } from 'react';
 import { getMovieDetailsById, getMovieTrailerById } from 'services/themoviedb.api';
 import { Outlet, useLocation, useParams } from 'react-router-dom';
+import Modal from '../../components/Modal/Modal'
 import { isEmpty } from 'lodash';
 
 import imgDefault from '../../imgDefault.jpg';
@@ -10,6 +11,8 @@ import {
   DetailsStyledLink,
   MovieInfoWrapper,
   MovieTextWrapper,
+  ImageContainer,
+  Image,
   SubMenuItem,
   SubMenuList,
   SubNavLink,
@@ -76,13 +79,16 @@ const MovieDetails = () => {
               <p><b>Overview: </b>{overview}</p>
               <p><b>Genres: </b>{genres.length > 0 ? genres.map(genre => genre.name).join('; ') : 'No genre info'}</p>
             </MovieTextWrapper>
-            <img
+            <ImageContainer>
+            <Image
               src={!poster_path ? imgDefault : `https://image.tmdb.org/t/p/w500/${poster_path}`}
               alt={title}
               width="360"
               onClick={handleImageClick}
               style={{ cursor: 'pointer' }}
             />
+            </ImageContainer>
+          
           </MovieInfoWrapper>
 
           <div>
@@ -99,22 +105,19 @@ const MovieDetails = () => {
         </>
       )}
 
-      {isTrailerOpen && (
-        <div className="modal">
-          <div className="modal-content">
-            <span className="close" onClick={closeTrailer}>&times;</span>
-            <iframe
-              width="100%"
-              height="400"
-              src={trailerUrl}
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              title="Trailer"
-            ></iframe>
-          </div>
-        </div>
-      )}
+<Modal isOpen={isTrailerOpen} onClose={closeTrailer}>
+<div style={{ borderRadius: '12px', overflow: 'hidden' }}>
+  <iframe
+    width="100%"
+    height="400"
+    src={trailerUrl}
+    frameBorder="0"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowFullScreen
+    title="Trailer"
+  ></iframe>
+</div>
+      </Modal>
 
       <DetailsStyledLink to={goBackHref.current}>
         <DetailsStyledLinkArrow>
