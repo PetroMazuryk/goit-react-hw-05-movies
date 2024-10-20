@@ -1,6 +1,42 @@
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
+
+export const ErrorMassage = styled.h2`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000; 
+  
+  display: block;
+  justify-content: center;
+  text-align: center;
+  font-size: 28px;
+  background-color: aqua;
+  border: none;
+  border-radius: 10px;
+  padding: 8px 12px;
+  max-width: 600px;
+  white-space: pre-wrap;
+  
+  animation-name: changeColor;
+  animation-duration: 3000ms;
+  animation-iteration-count: infinite;
+
+  @keyframes changeColor {
+    0% {
+      color: green;
+    }
+    50% {
+      color: orange;
+    }
+    100% {
+      color: green;
+    }
+  }
+`;
+
 export const MovieInfoWrapper = styled.div`
   display: flex;
   justify-content: center;
