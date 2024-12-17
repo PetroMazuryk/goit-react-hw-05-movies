@@ -36,7 +36,7 @@ export const ImgGalleryList = styled.ul`
   justify-content: center;
   gap: 10px;
   max-width: calc(100vw - 260px);
-  margin: 10px auto 0;
+  margin: 0 auto;
 `;
 
 export const ImgGalleryItem = styled.li`
@@ -45,21 +45,26 @@ export const ImgGalleryItem = styled.li`
   padding: 6px;
   border-radius: 16px;
   border: 2px solid green;
-  width: 360px;
 `;
 export const ImgThumb = styled.div`
-  height: 516px;
+  height: 460px;
   border: 2px solid green;
   border-radius: 16px;
-
   overflow: hidden;
 `;
 
 export const ImgGallery = styled.img`
+  width: 310px;
+
   transition: transform 250ms linear;
 
   :hover {
     transform: scale(1.05);
+  }
+
+  @media screen and (min-width: 480px) {
+    width: 360px;
+    height: 516px;
   }
 `;
 export const ImgGalleryTitle = styled.h3`

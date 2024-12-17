@@ -5,7 +5,7 @@ export const FormWrapper = styled.div`
   justify-content: center;
   align-items: center;
   text-align: center;
-  width: 400px;
+  width: 340px;
 
   margin: 15px auto;
 `;

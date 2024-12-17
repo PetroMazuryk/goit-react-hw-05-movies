@@ -2,8 +2,8 @@ import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 
 export const Container = styled.div`
-  padding: 0px 30px;
-  margin: 0 auto;
+  // padding: 0px 30px;
+  // margin: 0 auto;
   background-color: rgb(255, 250, 250);
   min-height: 100vh;
 `;
@@ -19,7 +19,7 @@ export const MenuContainer = styled.ul`
 
 export const MenuItem = styled.li`
   padding: 10px;
-  margin: 6px;
+  margin: 6px auto;
   &:hover {
     transform: scale(1.05);
   }
