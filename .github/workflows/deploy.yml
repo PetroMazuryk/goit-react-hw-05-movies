@@ -4,6 +4,10 @@ on:
   push:
     branches: [main]
 
+env:
+  REACT_APP_API_KEY: ${{secrets.REACT_APP_API_KEY}}
+  REACT_APP_BASE_URL: ${{secrets.REACT_APP_BASE_URL}}
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest

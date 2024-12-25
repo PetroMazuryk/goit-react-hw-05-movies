@@ -1,12 +1,15 @@
 import axios from 'axios';
 
-const API_KEY = 'ba520957137ad46ba4502dabb5237445';
-const BASE_URL = 'https://api.themoviedb.org/3';
-
+const REACT_APP_BASE_URL = process.env.REACT_APP_BASE_URL;
+const REACT_APP_API_KEY = process.env.REACT_APP_API_KEY;
+console.log(REACT_APP_API_KEY);
+console.log(REACT_APP_BASE_URL);
 // список найпопулярніших фільмів на тижні
 export const getTrendMovies = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/trending/movie/week?api_key=${API_KEY}`);
+    const response = await axios.get(
+      `${REACT_APP_BASE_URL}/trending/movie/week?api_key=${REACT_APP_API_KEY}`
+    );
     return response.data;
   } catch (error) {
     console.error('Error fetching trend movies:', error);
@@ -17,7 +20,9 @@ export const getTrendMovies = async () => {
 // пошук фільму за ключовим словом
 export const getMovieByName = async query => {
   try {
-    const response = await axios.get(`${BASE_URL}/search/movie?api_key=${API_KEY}&query=${query}&page=1`);
+    const response = await axios.get(
+      `${REACT_APP_BASE_URL}/search/movie?api_key=${REACT_APP_API_KEY}&query=${query}&page=1`
+    );
     return response.data;
   } catch (error) {
     console.error('Error fetching movie by name:', error);
@@ -28,7 +33,9 @@ export const getMovieByName = async query => {
 // запит повної інформації про фільм
 export const getMovieDetailsById = async movieId => {
   try {
-    const response = await axios.get(`${BASE_URL}/movie/${movieId}?api_key=${API_KEY}`);
+    const response = await axios.get(
+      `${REACT_APP_BASE_URL}/movie/${movieId}?api_key=${REACT_APP_API_KEY}`
+    );
     return response.data;
   } catch (error) {
     console.error('Error fetching movie details:', error);
@@ -39,7 +46,9 @@ export const getMovieDetailsById = async movieId => {
 // запит інформації про акторський склад
 export const getMovieCreditsById = async movieId => {
   try {
-    const response = await axios.get(`${BASE_URL}/movie/${movieId}/credits?api_key=${API_KEY}`);
+    const response = await axios.get(
+      `${REACT_APP_BASE_URL}/movie/${movieId}/credits?api_key=${REACT_APP_API_KEY}`
+    );
     return response.data;
   } catch (error) {
     console.error('Error fetching movie credits:', error);
@@ -50,7 +59,9 @@ export const getMovieCreditsById = async movieId => {
 // запит оглядів фільму
 export const getMovieReviewsById = async movieId => {
   try {
-    const response = await axios.get(`${BASE_URL}/movie/${movieId}/reviews?api_key=${API_KEY}&page=1`);
+    const response = await axios.get(
+      `${REACT_APP_BASE_URL}/movie/${movieId}/reviews?api_key=${REACT_APP_API_KEY}&page=1`
+    );
     return response.data;
   } catch (error) {
     console.error('Error fetching movie reviews:', error);
@@ -61,9 +72,13 @@ export const getMovieReviewsById = async movieId => {
 // запит трейлера фільму
 export const getMovieTrailerById = async movieId => {
   try {
-    const response = await axios.get(`${BASE_URL}/movie/${movieId}/videos?api_key=${API_KEY}`);
-    const trailers = response.data.results.filter(video => video.type === 'Trailer' && video.site === 'YouTube');
-    
+    const response = await axios.get(
+      `${REACT_APP_BASE_URL}/movie/${movieId}/videos?api_key=${REACT_APP_API_KEY}`
+    );
+    const trailers = response.data.results.filter(
+      video => video.type === 'Trailer' && video.site === 'YouTube'
+    );
+
     if (trailers.length > 0) {
       return trailers[0];
     } else {
